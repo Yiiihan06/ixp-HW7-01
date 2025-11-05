@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stage 1: Choose Your Path</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Main Scene Container -->
+    <div class="scene-container">
+        <!-- Title -->
+        <h1 class="stage-title">Stage 1: Choose Your Path</h1>
+
+        <!-- Paths Container -->
+        <div class="paths-container">
+            <!-- Path 1: Red Lanterns (Left) -->
+            <div class="path" data-path="1" id="path-lantern">
+                <div class="path-content">
+                    <div class="path-visual lantern-path">
+                        <div class="lantern"></div>
+                        <div class="lantern"></div>
+                        <div class="lantern"></div>
+                    </div>
+                    <p class="path-label">Path of Lanterns</p>
+                </div>
+            </div>
+
+            <!-- Path 2: Footprints (Center) -->
+            <div class="path" data-path="2" id="path-footprints">
+                <div class="path-content">
+                    <div class="path-visual footprint-path">
+                        <div class="footprint left"></div>
+                        <div class="footprint right"></div>
+                        <div class="footprint left"></div>
+                        <div class="footprint right"></div>
+                        <div class="footprint left"></div>
+                    </div>
+                    <p class="path-label">Path of Footsteps</p>
+                </div>
+            </div>
+
+            <!-- Path 3: Spider Webs (Right) -->
+            <div class="path" data-path="3" id="path-webs">
+                <div class="path-content">
+                    <div class="path-visual web-path">
+                        <div class="spider-web"></div>
+                        <div class="spider-web"></div>
+                        <div class="spider-web"></div>
+                    </div>
+                    <p class="path-label">Path of Webs</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Outcome Overlay (Hidden by default) -->
+        <div class="outcome-overlay" id="outcome-overlay">
+            <div class="blood-splash" id="blood-splash"></div>
+            <div class="outcome-content" id="outcome-content">
+                <h2 class="outcome-text" id="outcome-text"></h2>
+                <button class="outcome-button" id="outcome-button"></button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Audio Elements -->
+    <audio id="audio-lantern" loop>
+        <source src="assets/fire-crackling.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audio-footprints" loop>
+        <source src="assets/footsteps.mp3" type="audio/mpeg">
+    </audio>
+    <audio id="audio-webs" loop>
+        <source src="assets/screaming.mp3" type="audio/mpeg">
+    </audio>
+
+    <script src="script.js"></script>
+</body>
+</html>

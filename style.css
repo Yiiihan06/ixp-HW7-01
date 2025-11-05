@@ -1,0 +1,386 @@
+/* Global Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Arial', sans-serif;
+    background: linear-gradient(180deg, #9ca3af 0%, #d1d5db 50%, #9ca3af 100%);
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+}
+
+/* Scene Container */
+.scene-container {
+    width: 100%;
+    max-width: 1400px;
+    padding: 2rem;
+    position: relative;
+}
+
+.stage-title {
+    text-align: center;
+    font-size: 2.5rem;
+    color: #374151;
+    margin-bottom: 4rem;
+    font-weight: 300;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+}
+
+/* Paths Container */
+.paths-container {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 3rem;
+    padding: 2rem;
+}
+
+/* Individual Path */
+.path {
+    flex: 1;
+    max-width: 350px;
+    padding: 3rem 2rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    opacity: 1;
+    transform: scale(1);
+}
+
+.path:hover {
+    opacity: 1 !important;
+    transform: scale(1.05);
+    background: rgba(255, 255, 255, 0.2);
+}
+
+.path.dimmed {
+    opacity: 0.4;
+    transform: scale(0.95);
+}
+
+.path.disabled {
+    pointer-events: none;
+    cursor: not-allowed;
+}
+
+.path-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
+
+.path-visual {
+    width: 100%;
+    height: 300px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    position: relative;
+}
+
+.path-label {
+    font-size: 1.2rem;
+    color: #374151;
+    text-align: center;
+    font-weight: 300;
+    letter-spacing: 1px;
+}
+
+/* Path 1: Red Lanterns */
+.lantern-path {
+    gap: 2rem;
+}
+
+.lantern {
+    width: 60px;
+    height: 80px;
+    background: linear-gradient(180deg, #dc2626 0%, #991b1b 100%);
+    border-radius: 8px;
+    position: relative;
+    box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+    animation: flicker 2s infinite alternate;
+}
+
+.lantern::before {
+    content: '';
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 10px;
+    background: #7c2d12;
+    border-radius: 5px;
+}
+
+.lantern::after {
+    content: '';
+    position: absolute;
+    bottom: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 15px solid transparent;
+    border-right: 15px solid transparent;
+    border-top: 15px solid #991b1b;
+}
+
+@keyframes flicker {
+    0%, 100% {
+        box-shadow: 0 0 20px rgba(220, 38, 38, 0.5);
+        opacity: 1;
+    }
+    50% {
+        box-shadow: 0 0 30px rgba(220, 38, 38, 0.8);
+        opacity: 0.9;
+    }
+}
+
+/* Path 2: Footprints */
+.footprint-path {
+    gap: 1rem;
+}
+
+.footprint {
+    width: 50px;
+    height: 70px;
+    background: #4b5563;
+    border-radius: 40% 40% 50% 50%;
+    position: relative;
+    opacity: 0.7;
+}
+
+.footprint.left {
+    align-self: flex-start;
+    margin-left: 20%;
+}
+
+.footprint.right {
+    align-self: flex-end;
+    margin-right: 20%;
+}
+
+.footprint::before {
+    content: '';
+    position: absolute;
+    top: -15px;
+    left: 10px;
+    width: 15px;
+    height: 15px;
+    background: #4b5563;
+    border-radius: 50%;
+}
+
+.footprint::after {
+    content: '';
+    position: absolute;
+    top: -10px;
+    right: 10px;
+    width: 12px;
+    height: 12px;
+    background: #4b5563;
+    border-radius: 50%;
+}
+
+/* Path 3: Spider Webs */
+.web-path {
+    gap: 2rem;
+}
+
+.spider-web {
+    width: 120px;
+    height: 120px;
+    position: relative;
+}
+
+.spider-web::before,
+.spider-web::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #6b7280, transparent);
+    transform: translate(-50%, -50%);
+}
+
+.spider-web::after {
+    transform: translate(-50%, -50%) rotate(90deg);
+}
+
+.spider-web {
+    background:
+        linear-gradient(45deg, transparent 48%, #6b7280 48%, #6b7280 52%, transparent 52%),
+        linear-gradient(-45deg, transparent 48%, #6b7280 48%, #6b7280 52%, transparent 52%),
+        radial-gradient(circle, transparent 20%, #6b7280 20%, #6b7280 21%, transparent 21%),
+        radial-gradient(circle, transparent 40%, #6b7280 40%, #6b7280 41%, transparent 41%),
+        radial-gradient(circle, transparent 60%, #6b7280 60%, #6b7280 61%, transparent 61%);
+    opacity: 0.6;
+}
+
+/* Outcome Overlay */
+.outcome-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: none;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.outcome-overlay.active {
+    display: flex;
+}
+
+.outcome-content {
+    text-align: center;
+    z-index: 1001;
+    animation: fadeIn 0.5s ease;
+}
+
+.outcome-text {
+    font-size: 3rem;
+    color: #ffffff;
+    margin-bottom: 2rem;
+    font-weight: 300;
+    letter-spacing: 3px;
+}
+
+.outcome-button {
+    padding: 1rem 3rem;
+    font-size: 1.2rem;
+    background: #374151;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.outcome-button:hover {
+    background: #4b5563;
+    transform: scale(1.05);
+}
+
+/* Blood Splash Animation */
+.blood-splash {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, #dc2626 0%, #991b1b 40%, transparent 70%);
+    opacity: 0;
+    z-index: 999;
+    pointer-events: none;
+}
+
+.blood-splash.active {
+    animation: bloodSplash 0.6s ease-out forwards;
+}
+
+@keyframes bloodSplash {
+    0% {
+        opacity: 0;
+        transform: translate(-50%, -50%) scale(0);
+    }
+    50% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+        opacity: 0.7;
+        transform: translate(-50%, -50%) scale(2);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .paths-container {
+        flex-direction: column;
+        gap: 2rem;
+    }
+
+    .path {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .stage-title {
+        font-size: 2rem;
+        margin-bottom: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .stage-title {
+        font-size: 1.5rem;
+    }
+
+    .path-visual {
+        height: 200px;
+    }
+
+    .lantern {
+        width: 40px;
+        height: 60px;
+    }
+
+    .spider-web {
+        width: 80px;
+        height: 80px;
+    }
+
+    .outcome-text {
+        font-size: 2rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .scene-container {
+        padding: 1rem;
+    }
+
+    .paths-container {
+        padding: 1rem;
+    }
+
+    .outcome-text {
+        font-size: 1.5rem;
+    }
+
+    .outcome-button {
+        padding: 0.75rem 2rem;
+        font-size: 1rem;
+    }
+}
