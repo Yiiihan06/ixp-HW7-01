@@ -5,6 +5,7 @@ class GlassBridgeGame {
         this.camera = null;
         this.renderer = null;
         this.tiles = [];
+        this.allTiles = []; // Keep track of all tiles in the scene
         this.player = null;
         this.raycaster = new THREE.Raycaster();
         this.mouse = new THREE.Vector2();
@@ -15,6 +16,12 @@ class GlassBridgeGame {
         this.totalSteps = 10;
         this.safeTileIndex = 0;
         this.startPlatform = null;
+        this.nextTileZ = 2; // Z position for next tile pair
+        this.tileSpacing = -3; // Distance between tile pairs
+
+        // Camera follow
+        this.cameraTargetZ = 12;
+        this.cameraFollowSpeed = 0.05;
 
         // Audio contexts
         this.audioContext = null;
@@ -29,7 +36,7 @@ class GlassBridgeGame {
         // Setup scene
         this.scene = new THREE.Scene();
         this.scene.background = new THREE.Color(0x0a0a0a);
-        this.scene.fog = new THREE.Fog(0x0a0a0a, 10, 50);
+        this.scene.fog = new THREE.Fog(0x0a0a0a, 15, 60);
 
         // Setup camera - slightly tilted top-down view
         this.camera = new THREE.PerspectiveCamera(
@@ -180,6 +187,10 @@ class GlassBridgeGame {
         this.scene.add(leftTile);
         this.scene.add(rightTile);
 
+        // Add to all tiles array
+        this.allTiles.push(leftTile, rightTile);
+
+        // Set current interactive tiles
         this.tiles = [leftTile, rightTile];
     }
 
@@ -199,13 +210,15 @@ class GlassBridgeGame {
 
     startGame() {
         this.currentStep = 0;
+        this.nextTileZ = 2;
         this.updateStepCounter();
 
         // Hide start screen
         document.getElementById('start-screen').classList.add('hidden');
 
         // Create first tile pair
-        this.createTilePair(2);
+        this.createTilePair(this.nextTileZ);
+        this.nextTileZ += this.tileSpacing;
         this.interactionEnabled = true;
     }
 
@@ -218,16 +231,11 @@ class GlassBridgeGame {
             return;
         }
 
-        // Remove old tiles
-        this.tiles.forEach(tile => this.scene.remove(tile));
-        this.tiles = [];
-
-        // Create new tile pair
-        this.createTilePair(2);
+        // Don't remove old tiles, just create new ones ahead
+        // Create new tile pair at the next position
+        this.createTilePair(this.nextTileZ);
+        this.nextTileZ += this.tileSpacing;
         this.interactionEnabled = true;
-
-        // Hide message
-        document.getElementById('message-container').classList.add('hidden');
     }
 
     updateStepCounter() {
@@ -305,8 +313,13 @@ class GlassBridgeGame {
             // Safe tile - move player
             this.animatePlayerMove(targetX, targetZ, () => {
                 this.playSuccessSound();
-                this.showMessage('Stable.', 'next');
                 this.isAnimating = false;
+
+                // Update camera target to follow player
+                this.cameraTargetZ = this.player.position.z + 10;
+
+                // Automatically proceed to next step
+                this.nextStep();
             });
         } else {
             // Fragile tile - break and fall
@@ -601,10 +614,12 @@ class GlassBridgeGame {
         this.currentStep = 0;
         this.isAnimating = false;
         this.interactionEnabled = false;
+        this.nextTileZ = 2;
         this.updateStepCounter();
 
         // Remove all tiles
-        this.tiles.forEach(tile => this.scene.remove(tile));
+        this.allTiles.forEach(tile => this.scene.remove(tile));
+        this.allTiles = [];
         this.tiles = [];
 
         // Reset player position
@@ -613,6 +628,11 @@ class GlassBridgeGame {
             this.player.material.rotation = 0;
             this.player.scale.set(1, 1, 1);
         }
+
+        // Reset camera
+        this.camera.position.set(0, 8, 12);
+        this.cameraTargetZ = 12;
+        this.camera.lookAt(0, 0, 0);
 
         // Hide all UI
         document.getElementById('message-container').classList.add('hidden');
@@ -656,6 +676,16 @@ class GlassBridgeGame {
 
     animate() {
         requestAnimationFrame(() => this.animate());
+
+        // Smooth camera follow
+        const currentZ = this.camera.position.z;
+        const diff = this.cameraTargetZ - currentZ;
+        this.camera.position.z += diff * this.cameraFollowSpeed;
+
+        // Update camera look-at to follow player
+        const lookAtZ = this.player.position.z;
+        this.camera.lookAt(0, 0, lookAtZ);
+
         this.renderer.render(this.scene, this.camera);
     }
 }
