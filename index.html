@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Glass Bridge Trial - 3D Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="game-canvas"></canvas>
+
+        <!-- UI Overlays -->
+        <div id="ui-overlay">
+            <div id="message-container" class="hidden">
+                <div id="message-text"></div>
+                <button id="next-button" class="game-button hidden">Next Step</button>
+                <button id="retry-button" class="game-button hidden">Retry</button>
+            </div>
+
+            <div id="game-info">
+                <div id="step-counter">Step: <span id="current-step">0</span> / <span id="total-steps">10</span></div>
+            </div>
+
+            <div id="start-screen">
+                <h1>Glass Bridge Trial</h1>
+                <p>Choose the safe glass tile to cross the bridge</p>
+                <p class="instruction">Hover to preview, click to step</p>
+                <button id="start-button" class="game-button">Start Game</button>
+            </div>
+
+            <div id="victory-screen" class="hidden">
+                <h1>Victory!</h1>
+                <p>You reached the other side!</p>
+                <button id="play-again-button" class="game-button">Play Again</button>
+            </div>
+        </div>
+
+        <div id="red-flash" class="hidden"></div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="game.js"></script>
+</body>
+</html>
